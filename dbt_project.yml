@@ -1,4 +1,4 @@
-
+# dbt_project.yml
 # Manufacturing Semiconductors dbt Project
 # By Gideon Fernandez at Velocity Sense
 # https://www.velocitysense.com
@@ -6,6 +6,10 @@
 name: 'manufacturing_semiconductors_dbt'
 version: '1.0.0'
 config-version: 2
+
+# dbt Cloud
+dbt-cloud:
+    project-id: 402943
 
 profile: 'default'
 
