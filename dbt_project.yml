@@ -2,7 +2,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'my_new_project'
+name: 'manufacturing_semiconductors_dbt'
 version: '1.0.0'
 config-version: 2
 
@@ -36,7 +36,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  my_new_project:
-    # Applies to all files under models/example/
-    example:
-      +materialized: table
+  manufacturing_semiconductors_dbt:
+    +materialized: view
+
+# Project variables
+vars:
+  warn_threshold: 0.90
+  fail_threshold: 0.85
+  high_energy_threshold: 1200
