@@ -1,0 +1,41 @@
+
+version: 2
+
+sources:
+  - name: sensors_source
+    database: analytics
+    schema: sensors_source
+    description: Raw sensor data from manufacturing equipment
+    tables:
+      - name: machine_sensors
+        description: Sensor readings from manufacturing equipment
+        columns:
+          - name: reading_id
+            description: Unique identifier for each sensor reading
+            tests:
+              - unique
+              - not_null
+          - name: machine_id
+            description: Identifier for the machine
+            tests:
+              - not_null
+          - name: machine_type
+            description: Type of machine (Etcher, Litho, CMP)
+            tests:
+              - accepted_values:
+                  values: ['Etcher', 'Litho', 'CMP']
+          - name: sensor_type
+            description: Type of sensor (Temp, Vibration, Voltage)
+            tests:
+              - accepted_values:
+                  values: ['Temp', 'Vibration', 'Voltage']
+          - name: timestamp
+            description: Timestamp of the sensor reading
+            tests:
+              - not_null
+          - name: value
+            description: Sensor reading value
+          - name: unit
+            description: Unit of measurement (C, Hz, V)
+          - name: status
+            description: Status of the reading (OK, WARN, FAIL)
