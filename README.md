@@ -1,31 +1,38 @@
 # Semiconductor Manufacturing Analytics Platform
 
-![Semiconductor Manufacturing](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Wafer_2_Zoll_bis_8_Zoll.jpg/1280px-Wafer_2_Zoll_bis_8_Zoll.jpg)
+![Semiconductor Manufacturing](https://images.unsplash.com/photo-1510746001195-0db09655b6db?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
 
 ## Overview
 
-Welcome to our Semiconductor Manufacturing Analytics Data Platform! 
+Welcome to our Semiconductor Manufacturing Analytics Data Platform!
 
 This powerful solution transforms raw manufacturing data into actionable business insights. By combining data models with intuitive data visuals, we help you optimize production, reduce defects, and make smarter decisions.
+
+Made with love by Gideon Fernandez, Founder at Velocity Sense.
 
 ## The Value You Get with Data
 
 ### Dashboard for Actionable Insights
+
 - Track yield rates across product types and machines
 - Identify patterns in defect rates
 - Pinpoint exactly where quality issues arise
 
 ### Equipment Health Monitoring
+
 - Monitor sensor readings from all manufacturing equipment
 - Get alerts when readings fall outside normal parameters
 - Predict maintenance needs before failures occur
 
 ### Inventory Intelligence
+
 - Maintain optimal stock levels of critical materials
 - Receive automatic alerts when supplies run low
 - Track consumption patterns and costs
 
 ### Production Performance
+
 - Compare efficiency metrics across machines and product types
 - Identify bottlenecks in your manufacturing process
 - Optimize production schedules based on historical performance
@@ -65,5 +72,4 @@ For support or questions about this analytics platform, please contact:
 - Or visit our website at www.velocitysense.com
 
 ---
-
-*Built with modern data stack technologies including dbt Cloud and Hex*
+_Built with modern data stack technologies including dbt Cloud and Hex_
