@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    database: analytics
+    tables:
+      - name: equipment_logs
+      - name: process_data
+      - name: defect_logs
+      - name: lots
+      - name: wafer_process_events

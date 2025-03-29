@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: stg_wafer_process
+    description: Cleaned wafer process records with calculated yield loss and pressure bucket.
+    columns:
+      - name: wafer_id
+        description: Unique identifier for the wafer
+        tests: [not_null]
+      - name: timestamp
+        description: Timestamp of the wafer process event
+        tests: [not_null]
+      - name: yield_percentage
+        description: Final yield for the process step
+      - name: yield_loss
+        description: Calculated yield loss as (100 - yield_percentage)
+      - name: defect_count
+        description: Number of defects recorded in this step
+      - name: is_defective
+        description: Boolean flag if any defect was found
+      - name: pressure_status
+        description: Pressure bucket - Low, Normal, or High
+        tests:
+          - accepted_values:
+              values: ['Low', 'Normal', 'High']
+
+  - name: stg_process
+    description: Parsed process data with numeric temperature and pressure
+    columns:
+      - name: process_id
+        description: Unique identifier for the process step
+        tests: [not_null, unique]
+      - name: target_temperature
+        description: Target temperature extracted from parameters
+      - name: target_pressure
+        description: Target pressure extracted from parameters
+
+  - name: stg_equipment
+    description: Equipment metadata from the fab floor
+    columns:
+      - name: equipment_id
+        description: Unique ID for the tool
+        tests: [not_null, unique]
+
+  - name: stg_lots
+    description: Lot-level info for products and wafers
+    columns:
+      - name: lot_id
+        description: Unique lot ID
+        tests: [not_null, unique]
+
+  - name: stg_defects
+    description: Master list of known defect types and categories
+    columns:
+      - name: defect_id
+        description: Unique defect ID
+        tests: [not_null, unique]

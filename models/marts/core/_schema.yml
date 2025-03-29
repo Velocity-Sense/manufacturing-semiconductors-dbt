@@ -1,0 +1,200 @@
+version: 2
+
+models:
+  - name: dim_lot
+    description: >
+      Dimension table for lots, containing customer, product, scheduling,
+      and priority information. Includes derived duration and standardized labels.
+    columns:
+      - name: lot_id
+        description: Unique identifier for the lot
+        tests: [not_null, unique]
+      - name: product_id
+        description: ID of the product in the lot
+      - name: wafer_count
+        description: Number of wafers in the lot
+      - name: start_date
+        description: Start date of the lot's processing
+      - name: target_completion_date
+        description: Expected completion date
+      - name: customer_id
+        description: ID of the customer associated with the lot
+      - name: priority_level
+        description: Priority label in uppercase
+        tests:
+          - accepted_values:
+              values: ['HIGH', 'MEDIUM', 'LOW']
+      - name: scheduled_duration_days
+        description: Number of days allotted for processing the lot
+
+  - name: dim_process
+    description: >
+      Dimension table for manufacturing processes. Includes parsed parameter values
+      and derived complexity rating based on expected duration.
+    columns:
+      - name: process_id
+        description: Unique identifier for the process
+        tests: [not_null, unique]
+      - name: process_name
+        description: Human-readable process step name
+      - name: process_type
+        description: Lowercased type of process (e.g., etching, deposition)
+      - name: recipe_id
+        description: Recipe or setup used in the process
+      - name: expected_duration
+        description: Expected runtime duration in minutes
+      - name: material_requirements
+        description: Required materials for the process
+      - name: target_temperature
+        description: Extracted target temperature (numeric)
+      - name: target_pressure
+        description: Extracted target pressure (numeric)
+      - name: process_complexity
+        description: Calculated complexity based on expected_duration
+        tests:
+          - accepted_values:
+              values: ['Low', 'Medium', 'High']
+
+  - name: dim_equipment
+    description: >
+      Equipment dimension table that standardizes equipment details and
+      calculates current equipment age in years.
+    columns:
+      - name: equipment_id
+        description: Unique identifier for the equipment
+        tests: [not_null, unique]
+      - name: equipment_type
+        description: Capitalized type of tool (e.g., CMP, CVD)
+      - name: manufacturer
+        description: Capitalized name of the equipment manufacturer
+      - name: model_number
+        description: UPPERCASE model number for consistency
+      - name: installation_date
+        description: Original installation date of the tool
+      - name: last_maintenance_date
+        description: Most recent maintenance date
+      - name: location
+        description: FAB location in uppercase
+      - name: equipment_age_years
+        description: Calculated number of years since installation
+
+  - name: dim_defect
+    description: >
+      Standardized defect type dimension with severity ratings derived from level.
+    columns:
+      - name: defect_id
+        description: Unique identifier for the defect type
+        tests: [not_null, unique]
+      - name: defect_type
+        description: Capitalized type of defect
+      - name: defect_category
+        description: Lowercased defect category
+      - name: defect_description
+        description: Human-readable explanation of the defect
+      - name: potential_causes
+        description: Notes on what may cause this defect
+      - name: severity_level
+        description: Numeric rating from 1 (low) to 5 (high)
+      - name: severity_rating
+        description: Derived label ('Low', 'Moderate', 'High') based on severity_level
+
+  - name: int_wafer_process
+    description: >
+      Intermediate model to clean and enrich raw wafer process events. Adds yield loss,
+      pressure status, and defect flags.
+    columns:
+      - name: wafer_id
+        description: Unique identifier for the wafer
+        tests: [not_null]
+      - name: timestamp
+        description: Timestamp of the process event
+        tests: [not_null]
+      - name: process_id
+        description: ID of the process performed
+      - name: equipment_id
+        description: Tool used for the process
+      - name: lot_id
+        description: ID of the lot this wafer belongs to
+      - name: yield_percentage
+        description: Percentage yield for this process step
+      - name: yield_loss
+        description: 100 - yield_percentage
+      - name: defect_count
+        description: Number of defects recorded
+      - name: is_defective
+        description: TRUE if any defects found
+      - name: process_duration
+        description: Total time taken for the process
+      - name: energy_consumption
+        description: Total energy consumed
+      - name: temperature_actual
+        description: Measured temperature
+      - name: pressure_actual
+        description: Measured pressure
+      - name: pressure_status
+        description: Derived pressure band (Low, Normal, High)
+        tests:
+          - accepted_values:
+              values: ['Low', 'Normal', 'High']
+
+  - name: fct_wafer_process
+    description: >
+      Final fact table combining wafer process events with contextual details from 
+      process and lot dimensions. Includes process performance classification.
+    columns:
+      - name: wafer_id
+        description: Unique identifier for the wafer
+        tests: [not_null]
+      - name: timestamp
+        description: Timestamp of the process event
+      - name: batch_id
+        description: Batch identifier for grouping wafers
+      - name: lot_id
+        description: Lot the wafer belongs to
+        tests: [not_null]
+      - name: equipment_id
+        description: Tool used in the process
+        tests: [not_null]
+      - name: process_id
+        description: Process performed
+        tests: [not_null]
+      - name: yield_percentage
+        description: Yield for this process step
+      - name: yield_loss
+        description: Yield loss = 100 - yield
+      - name: yield_performance
+        description: Performance band derived from yield loss
+        tests:
+          - accepted_values:
+              values: ['Excellent', 'Good', 'Needs Attention']
+      - name: defect_count
+        description: Number of recorded defects
+      - name: is_defective
+        description: Flag for any defects
+      - name: process_duration
+        description: Time taken to complete the process
+      - name: energy_consumption
+        description: Power usage
+      - name: temperature_actual
+        description: Recorded temperature during process
+      - name: pressure_actual
+        description: Measured pressure
+      - name: pressure_status
+        description: Bucketed pressure value
+        tests:
+          - accepted_values:
+              values: ['Low', 'Normal', 'High']
+      - name: process_type
+        description: Type of process performed (joined from dim_process)
+      - name: target_temperature
+        description: Target temp for this process
+      - name: target_pressure
+        description: Target pressure for this process
+      - name: priority_level
+        description: Priority label from the lot
+      - name: customer_id
+        description: Customer assigned to the lot
+      - name: process_month
+        description: Date truncated to first of the month
+      - name: day_of_week
+        description: Integer representing the day of the week
