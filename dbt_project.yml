@@ -28,9 +28,3 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   manufacturing_semiconductors_dbt:
     +materialized: view
-
-# Project variables
-vars:
-  warn_threshold: 0.90
-  fail_threshold: 0.85
-  high_energy_threshold: 1200
