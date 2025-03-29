@@ -1,4 +1,4 @@
--- base_operators_source__operator_logs.sql
+-- stg_operators_source__operator_logs.sql
 
 with source as (
     

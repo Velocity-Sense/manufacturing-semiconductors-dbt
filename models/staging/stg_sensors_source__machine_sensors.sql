@@ -1,4 +1,4 @@
--- base_sensors_source__machine_sensors.sql
+-- stg_sensors_source__machine_sensors.sql
 
 with source as (
     

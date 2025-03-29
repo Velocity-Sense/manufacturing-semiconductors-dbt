@@ -1,4 +1,4 @@
--- base_production_source__production_runs.sql
+-- stg_production_source__production_runs.sql
 
 with source as (
     

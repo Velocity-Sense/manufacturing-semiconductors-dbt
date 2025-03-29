@@ -1,4 +1,4 @@
--- base_inventory_source__inventory_supplies.sql
+-- stg_inventory_source__inventory_supplies.sql
 
 with source as (
     
