@@ -18,6 +18,12 @@ stg_lots as (
 
 ),
 
+stg_defects as (
+
+    select * from {{ ref('stg_defects') }}
+
+),
+
 int_wafer_process AS (
 
     select
@@ -27,6 +33,7 @@ int_wafer_process AS (
         wp.lot_id,
         wp.equipment_id,
         wp.process_id,
+        wp.defect_id,
         wp.yield_percentage,
         wp.yield_loss,
         wp.defect_count,
@@ -40,17 +47,24 @@ int_wafer_process AS (
         p.target_temperature,
         p.target_pressure,
         l.priority_level,
-        l.customer_id
+        l.customer_id,
+        d.defect_type,
+        d.defect_category,
+        d.defect_description,
+        d.potential_causes,
+        d.severity_level
     from stg_wafer_process wp
     left join stg_process p
         on wp.process_id = p.process_id
     left join stg_lots l
         on wp.lot_id = l.lot_id
+    left join stg_defects d
+        on d.defect_id = wp.defect_id
 
 )
 
 select
-    *,
+    int_wafer_process.*,
     date_trunc('month', timestamp) as process_month,
     extract(dow from timestamp) as day_of_week,
     case

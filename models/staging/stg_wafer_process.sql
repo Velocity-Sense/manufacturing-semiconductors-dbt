@@ -13,6 +13,7 @@ select
     lot_id,
     equipment_id,
     process_id,
+    defect_id,
     yield_percentage,
     100 - yield_percentage as yield_loss,
     defect_count,

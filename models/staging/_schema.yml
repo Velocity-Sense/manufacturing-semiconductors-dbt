@@ -10,6 +10,8 @@ models:
       - name: timestamp
         description: Timestamp of the wafer process event
         tests: [not_null]
+      - name: defect_id
+        description: The defect id if it exists on the wafer
       - name: yield_percentage
         description: Final yield for the process step
       - name: yield_loss
