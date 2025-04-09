@@ -10,6 +10,8 @@ Semiconductor manufacturing generates massive amounts of tool and process data b
 
 This project demonstrates how to solve that using modern data engineering practices.
 
+Check out the data visualization made using the data models on Tableau Public here: [Semiconductor Manufactoring Analytics Tableau Dashboard](https://public.tableau.com/app/profile/gideon.fernandez/viz/SemiconductorManufacturingAnalytics/A2)
+
 ## The Problems We Solve with Data
 
 - Yield analysis is critical, but messy and inconsistent across tools
@@ -94,4 +96,4 @@ For support or questions about this analytics platform, please contact:
 - Or visit our website at www.velocitysense.com
 
 ---
-_Built with modern data stack technologies including dbt Cloud and Hex_
+_Built with modern data stack technologies including dbt Cloud and Tableau Public_
